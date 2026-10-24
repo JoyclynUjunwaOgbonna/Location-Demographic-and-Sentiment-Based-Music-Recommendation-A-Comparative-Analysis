@@ -8,6 +8,10 @@ This repository contains the Jupyter notebooks for my dissertation project. The 
 
 The project compares three classifiers, Supervised LDA, Random Forest and a Multilayer Perceptron, across three versions of the dataset. Each version uses lyric moods from a different transformer model.
 
+The song preference data is real participant data. 60 participants ranked songs for each location: 30 male and 30 female, aged 21–35, all based in Nigeria.
+
+*MSc Data Science project report, 2024. Supervised by Eugenio Alberdi.*
+
 ## Locations
 
 Songs were collected for eight locations:
@@ -48,6 +52,32 @@ The models are evaluated separately for each demographic target group (male and 
 - Precision@k, Average Precision@k and NDCG@k
 - Precision and ROC curves
 - Confusion matrices
+
+ANOVA and Tukey's HSD tests were used to check whether the differences between models and between datasets are statistically significant.
+
+## Results
+
+Mean scores of each model across all target groups:
+
+| Metric | MLP | SLDA | Random Forest |
+|--------|:---:|:----:|:-------------:|
+| Precision@20 | **0.70** | 0.60 | 0.54 |
+| Average Precision@20 | **0.75** | 0.70 | 0.63 |
+| NDCG@20 | **0.71** | 0.62 | 0.55 |
+| Precision | **0.64** | 0.56 | 0.55 |
+
+### Key findings
+
+- **The MLP performed best overall.** Its best result was a mean Precision@20 of 0.70 on the DistilRoBERTa Mitch dataset. Tukey's HSD shows that the MLP is significantly better than SLDA (p = 0.046). The MLP's lead over Random Forest is not statistically significant (p = 0.13), and neither is the difference between Random Forest and SLDA (p = 0.87).
+- **The choice of mood model made no significant difference.** For all three classifiers, ANOVA found no statistically significant difference (p > 0.05) between the RoBERTa, DistilRoBERTa and DistilRoBERTa Mitch datasets.
+- **Demographics matter.** Music preferences differed significantly across demographic groups in different locations (ANOVA, p < 0.05).
+- **Performance varies by target group.** Each model did best on different location-age-gender groups:
+  - MLP: best on `library_26_30_Female`, with Precision@20 = 1.0 on all three datasets
+  - Random Forest: best on `library_26_30_Male`
+  - SLDA: best on `mall_31_35_Male`
+  - All three models struggled with the `bedroom_21_25` groups.
+
+The full methodology, per-group results and discussion are in the dissertation report.
 
 ## Tech stack
 
